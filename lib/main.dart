@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:inventario_dialgo/components/databaseController.dart';
 
 void main() {
   runApp(MyApp());
@@ -47,107 +49,113 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  static const Alignment topRight = Alignment(1.0, -1.0);
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  var _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    var db = databaseController();
+    var productoFila = {
+      "productos":[
+        "CHIZITOS QUESO 16GX7X14 TIR",
+        "CHIZITOS QUESO 16GX91X1",
+        "CHIZITOS QUESO 40GX5X12 TIR",
+        "CHIZITOS QUESO 40GX48X1",
+        "CHIZITOS QUESO 25GX7X12TIR",
+        "CHIZITOS QUESO 25GX48X1",
+        "CHIZITOS QUESO PIC 16GX7X14 TIR",
+        "CHIZITOS QUESO PICANTE 16GX91X1",
+        "CHIZITOS QUESO PIC 25GX7X12TIR",
+        "CHIZITOS QUESO PICANTE 40GX5X12 TIR",
+        "CHIZITOS QUESO PICANTE 40GX48X1",
+        "CHIZITOS QUESO 190GX8X1 C/PREC",
+        "CHEETOS HORNEADOS QUESO 34GX6X12 TIR",
+        "CHEETOS HORNEADOS QUESO 34GX56X1",
+        "CHEETOS HORNEADOS QUESO 74GX32X1",
+        "CHEETOS HORNEADOS QUESO 200GX10X1",
+      ]
+    };
+    List<DataRow> x =[];
+    productoFila["productos"].forEach((e) => {
+      x.add(DataRow(
+          cells: [
+            DataCell(Text(e)),
+            DataCell(Text('1')),
+            DataCell(Text('Cajas')),
+          ]
+      ))
+    });
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text("Almacen DIALGO"),
       ),
       body: ListView(
         children:[
-          Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have clicked the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            TextFormField(
-              // keyboardType: ,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  // Validate will return true if the form is valid, or false if
-                  // the form is invalid.
-                  // if (_formKey.currentState!.validate()) {
-                  //   // Process data.
-                  // }
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 30.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  '$_counter',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                TextFormField(
+                  key: _formKey,
+                  decoration: const InputDecoration(
+                    hintText: 'Cantidad',
+                  ),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    try{
+                      int.parse(value);
+                    }
+                    catch(e){
+                      return 'Eso no es un numero';
+                    }
+                    if (value.isEmpty) {
+                      return 'Ingrese un valor';
+                    }
+                    return null;
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Validate will return true if the form is valid, or false if
+                      // the form is invalid.
+                      if (_formKey.currentState.validate()) {
+                        // Process data.
+                      }
 
-                },
-                child: Text('Submit'),
-              ),
+                    },
+                    child: Text('Submit'),
+                  ),
+                ),
+                DataTable(columns: const [
+                  DataColumn(
+                    label: Text('Producto'),
+                  ),
+                  DataColumn(
+                    label: Text('Cantidad'),
+                  ),
+                  DataColumn(
+                    label: Text('Unidad'),
+                  ),
+
+                ], rows: x
+                // [DataRow(cells: [
+                //   DataCell(Text('e')),
+                //   DataCell(Text('1')),
+                //   DataCell(Text('Cajas'))
+                // ]
+                // )]
+                )
+              ],
             ),
-            DataTable(columns: const [
-              DataColumn(
-                label: Text('Producto'),
-              ),
-              DataColumn(
-                label: Text('Cantidad'),
-              ),
-              DataColumn(
-                label: Text('Unidad'),
-              ),
-            ], rows:[
-              DataRow(cells: <DataCell>[
-                DataCell(Text('Chizitos')),
-                DataCell(Text('1')),
-                DataCell(Text('Cajas')),
-              ])
-            ])
-          ],
-        ),
+          ),
         ]
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
