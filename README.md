@@ -4,4 +4,8 @@ Mis padres trabajaron en un negocio de distribución toda la vida. Me indicaron 
 ### Porque flutter?
 En la universidad trabaje con Android Studio y java puro. No recuerda que fuera tan complicado, pero odia no entender los XML. Además de que me pareció una buena excusa para ver el desarrollo móvil actual y como esta avanzando.
 
-![Alt Text](https://res.cloudinary.com/sisterno-blog/image/upload/v1618796396/2021-04-18-20-38-57_mpqwwx.gif)
+## Versión
+### Versión 1.0
+<p align="center">
+  <img src="/utils/img/2021-04-18-20-38-57.gif" />
+</p>
