@@ -39,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Map> _inventariado = [
     // {'nombre': 'Prueba', 'cantidad': 0}
   ];
+  List<bool> _selected=[];
   Map _actualProduct = {
     "nombre": "Seleccione un producto",
     'cantidad':-1,
@@ -82,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
         });
         setState(() {
           _inventariado=tempInve;
+          _selected = List<bool>.generate(tempInve.length, (int index) => false);
         });
       });
     }).then((value) => print('initial is working'));
@@ -112,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ListaInveWidget(
                         _inventariado,
                         selectProduct,
-                        _actualProduct
+                        _selected
                     ),
                   ],
                 ),

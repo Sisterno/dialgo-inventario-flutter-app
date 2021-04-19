@@ -20,7 +20,7 @@ class _ActualProductWidgetState extends State<ActualProductWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final myController = TextEditingController(text: widget._productoActual['cantidad'].toString());
+    final myController = TextEditingController(text: widget._productoActual['cantidad']!=0?widget._productoActual['cantidad'].toString():'');
     return Container(
       color: Colors.white,
       child: Padding(
