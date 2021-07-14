@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:inventario_dialgo/components/databaseController.dart';
+import 'package:inventario_dialgo/data/databaseController.dart';
 import 'package:inventario_dialgo/components/listaInventario.dart';
 import 'package:inventario_dialgo/components/actualProduct.dart';
-import 'package:inventario_dialgo/components/excel.dart';
+import 'package:inventario_dialgo/util/excel.dart';
 
 void main() {
   runApp(MyApp());
